@@ -4,7 +4,7 @@
 
 @implementation CustomButton
 
-@synthesize title;
+@synthesize titleLabel;
 
 - (UILabel*) makeTitleLabel {
     return [[UILabel alloc] initWithFrame: CGRectMake(0,0,320,21)];
@@ -37,16 +37,16 @@
             }
         }
         UILabel* tmpLabel = [self makeTitleLabel];
-        title = tmpLabel;
-        title.frame = b.titleLabel.frame;
-        title.opaque = b.titleLabel.opaque;
-        title.font = b.titleLabel.font;
-        title.textColor = b.titleLabel.textColor;
-        title.backgroundColor = b.titleLabel.backgroundColor;
-        if (!title.backgroundColor) {
-            title.backgroundColor = [UIColor clearColor];
+        titleLabel = tmpLabel;
+        titleLabel.frame = b.titleLabel.frame;
+        titleLabel.opaque = b.titleLabel.opaque;
+        titleLabel.font = b.titleLabel.font;
+        titleLabel.textColor = b.titleLabel.textColor;
+        titleLabel.backgroundColor = b.titleLabel.backgroundColor;
+        if (!titleLabel.backgroundColor) {
+            titleLabel.backgroundColor = [UIColor clearColor];
         }
-        [self addSubview: title];
+        [self addSubview: titleLabel];
     }
     return self;
 }

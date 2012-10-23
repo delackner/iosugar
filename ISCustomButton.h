@@ -9,7 +9,7 @@
     NSMutableDictionary* actions;
 }
 
-@property (unsafe_unretained, nonatomic, readonly) UILabel* title;
+@property (unsafe_unretained, nonatomic) UILabel* titleLabel;
 //requires param to be a button, but declared as control so you can declare the buttons it will replace as UIControl
 + (id) replaceButton: (UIControl*) b;
 - (id) initWithButton: (UIButton*) button;
