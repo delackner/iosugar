@@ -69,6 +69,7 @@ typedef signed long long s64;
 #import "UIImage+Sugar.h"
 #import "UIView+Sugar.h"
 
+#import "ISBatchDownloader.h"
 #import "ISCustomButton.h"
 #import "ISGrowler.h"
 
