@@ -28,7 +28,7 @@
             NSString* path = [self.paths objectAtIndex: nextDownload];
             BOOL isCached = FALSE;
             if (!cancelled && !isCached) {
-                [controller downloadItem: path];
+                isCached = [controller downloadItem: path];
                 if (!isCached) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (!self.cancelled) {
@@ -40,6 +40,7 @@
                             g.busyView.hidden = FALSE;
                         }
                     });
+                    return;
                 }
             }
             nextDownload++;

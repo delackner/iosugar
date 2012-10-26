@@ -128,11 +128,11 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className ;
 - (void) popWithFade;
 - (void) popMultiple:(int) n;
-- (void) popToSelf;
+- (void) popToVC: (UIViewController*) parent;
 
 - (void) pushVC: (UIViewController*) vc withSlideFromEdge: (ScreenEdge) edge;
 - (void) popWithSlideToEdge: (ScreenEdge) edge;
-
+- (void) willPop;
 - (void) setBackButton: (NSString*) title action: (SEL) action;
 - (UIViewController*) segueTo: (NSString*) className;
 - (void) segueToVC: (UIViewController*) vc;

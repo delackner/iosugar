@@ -181,13 +181,13 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 	return vc;    
 }
 
-- (void) popToSelf {
+- (void) popToVC: (UIViewController*) parent {
     UINavigationController* n = self.navigationController;
     NSEnumerator* e = [[n viewControllers] reverseObjectEnumerator];
     int i = 0;
     UIViewController* vc;
     while (nil != (vc = [e nextObject])) {
-        if (vc == self) {
+        if (vc == parent) {
             break;
         }
         i++;
@@ -199,6 +199,11 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 }
 
 - (void) popMultiple:(int) mul {
+    static BOOL popping = FALSE;
+    if (popping) {
+        return;
+    }
+    popping = TRUE;
     UINavigationController* n = self.navigationController;
 
     UIView* matrix = n.view;
@@ -222,6 +227,8 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
         count = 1;
     }
     for (int i = 0; i < count; i++) {
+        UIViewController* vc = [n topViewController];
+        [vc willPop];
         [n popViewControllerAnimated: NO];
     }
 
@@ -231,6 +238,12 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     } completion: ^(BOOL fin) {
         [imageView removeFromSuperview];
     }];
+    
+    popping = FALSE;
+}
+
+- (void) willPop {
+    
 }
 
 - (void) popWithFade {
