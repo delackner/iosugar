@@ -659,6 +659,7 @@ BOOL OSVersionAtLeast4(void){
 - (void) sizeToFit {
     [super sizeToFit];
 	CGSize textSize = [self.text sizeWithFont:self.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode: self.lineBreakMode];
+    textSize.width += 8;
     CGRect f = self.frame;
     f.size = textSize;
     self.frame = f;
