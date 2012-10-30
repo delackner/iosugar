@@ -656,6 +656,14 @@ BOOL OSVersionAtLeast4(void){
     [super drawRect: r];
 }
 
+- (void) sizeToFit {
+    [super sizeToFit];
+	CGSize textSize = [self.text sizeWithFont:self.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode: self.lineBreakMode];
+    CGRect f = self.frame;
+    f.size = textSize;
+    self.frame = f;
+}
+
 @end
 
 BOOL IsAACHardwareEncoderAvailable(void) {
