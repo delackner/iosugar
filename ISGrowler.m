@@ -199,7 +199,8 @@ static Growler* growler = nil;
 }
 
 - (void) showWithViewController: (UIViewController*) vc {
-	[[vc view] addSubviewWithFade: [self view]];
+    self.view.frame = vc.view.bounds;
+	[vc.view addSubviewWithFade: self.view];
 	[[self coreView] pulse];
     [self performSelector:@selector(willAppear) withObject:nil afterDelay:0.1];
 }
