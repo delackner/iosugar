@@ -32,12 +32,11 @@
                 if (!isCached) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (!self.cancelled) {
-                            Growler* g = [controller growl:@"" message: LS(@"WARN_AUDIO_DOWN_FAILED") okButton: LS(@"OK") ok: ^(int r){
+                            [controller growl:LS(@"WARN_AUDIO_DOWN_FAILED") message:@"" then: ^{
                                 if (!self.cancelled) {
                                     [controller userCancelledDownload];
                                 }
                             }];
-                            g.busyView.hidden = FALSE;
                         }
                     });
                     return;

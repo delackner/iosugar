@@ -123,6 +123,7 @@ UIControl* ReplaceWithGlowButton(UIControl* c) {
 	if (nil != (self = [super initWithFrame: b.frame])) {
 		self.opaque = FALSE;
 		self.backgroundColor = [UIColor clearColor];
+        self.autoresizingMask = b.autoresizingMask;
 		image = [b imageForState: UIControlStateNormal];
 		selImage = [b imageForState: UIControlStateSelected];
 		actions = [NSMutableDictionary dictionary];
@@ -142,7 +143,7 @@ UIControl* ReplaceWithGlowButton(UIControl* c) {
         
         CALayer* gl = [CALayer layer];
         gl.actions = [NSDictionary dictionaryWithObject:[NSNull null] forKey:@"hidden"];
-        UIImage* img = [UIImage loadImage: @"buttonGlow"];
+        UIImage* img = [UIImage loadImage: @"buttonGlow.png"];
         gl.contents = (__bridge id)[img CGImage];
         gl.frame = self.bounds;
         [self.layer addSublayer: gl];

@@ -24,7 +24,7 @@ NSString* MakeWindowsSafeFilename(NSString* title);
 
 NSString* ResolveSoftResourcePath (NSString* sub);
 int ParseHMS(NSString* s);
-NSString* Timestamp();
+NSString* Timestamp(NSDate* date);
 NSString* Datestamp(NSDate* date);
 
 #ifdef __cplusplus

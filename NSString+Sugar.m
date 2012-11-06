@@ -110,13 +110,13 @@ int ParseHMS(NSString* s) {
     return t;
 }
 
-NSString* Timestamp() {
+NSString* Timestamp(NSDate* date) {
     static NSDateFormatter* d = nil;
     if (!d) {
         d = [[NSDateFormatter alloc] init];
     }
     [d setDateFormat: @"yyyyMMddHHmmss"];
-    return [d stringFromDate: [NSDate date]];
+    return [d stringFromDate: date];
 }
 
 NSString* Datestamp(NSDate* date) {
