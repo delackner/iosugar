@@ -72,12 +72,14 @@ NSArray *array(id items, ...) {
 }
 
 - (void)shuffle {
-    // http://en.wikipedia.org/wiki/Knuth_shuffle
-	//NSLog(@"shuffling: %@\n", [[[self description] stringByReplacingOccurrencesOfString:@"\n" withString:@","] stringByReplacingOccurrencesOfString:@" " withString:@""]);
-    for(NSUInteger i = [self count]; --i > 0; ) {
-    	NSUInteger j = random_below(i + 1);
-    	[self exchangeObjectAtIndex:i withObjectAtIndex:j];
-        //NSLog(@"%d <-> %d: %@", i, j, [[[self description] stringByReplacingOccurrencesOfString:@"\n" withString:@","] stringByReplacingOccurrencesOfString:@" " withString:@""]);
+    if (self.count > 1) {
+        // http://en.wikipedia.org/wiki/Knuth_shuffle
+        //NSLog(@"shuffling: %@\n", [[[self description] stringByReplacingOccurrencesOfString:@"\n" withString:@","] stringByReplacingOccurrencesOfString:@" " withString:@""]);
+        for(NSUInteger i = [self count]; --i > 0; ) {
+            NSUInteger j = random_below(i + 1);
+            [self exchangeObjectAtIndex:i withObjectAtIndex:j];
+            //NSLog(@"%d <-> %d: %@", i, j, [[[self description] stringByReplacingOccurrencesOfString:@"\n" withString:@","] stringByReplacingOccurrencesOfString:@" " withString:@""]);
+        }
     }
 }
 

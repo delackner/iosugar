@@ -18,6 +18,7 @@
 @end
 
 // only supports UIControlEventTouchDown, UIControlEventTouchUpInside, UIControlEventTouchUpOutside
+// Not suitable for buttons that get enabled/disabled and have text, as the text is always just drawn with the enabled color.
 @interface GlowButton : UIControl {
     __unsafe_unretained id target;
     __unsafe_unretained CALayer* glowLayer;
@@ -27,6 +28,8 @@
 }
 
 - (id) initAndReplaceButton: (UIButton*) b;
+
+@property (nonatomic, unsafe_unretained) UILabel* titleLabel;
 
 @end
 

@@ -122,10 +122,24 @@ UIControl* ReplaceWithGlowButton(UIControl* c) {
 - (id) initAndReplaceButton: (UIButton*) b {
 	if (nil != (self = [super initWithFrame: b.frame])) {
 		self.opaque = FALSE;
-		self.backgroundColor = [UIColor clearColor];
+		self.backgroundColor = [b backgroundColor];
         self.autoresizingMask = b.autoresizingMask;
 		image = [b imageForState: UIControlStateNormal];
 		selImage = [b imageForState: UIControlStateSelected];
+        
+        UILabel* t = [[UILabel alloc] initWithFrame: b.titleLabel.frame];
+        t.frame = b.titleLabel.frame;
+        t.opaque = b.titleLabel.opaque;
+        t.font = b.titleLabel.font;
+        t.textColor = b.titleLabel.textColor;
+        t.backgroundColor = b.titleLabel.backgroundColor;
+        t.text = [b titleForState:0];
+        if (!t.backgroundColor) {
+            t.backgroundColor = [UIColor clearColor];
+        }
+        [self addSubview: t];
+        _titleLabel = t;
+        
 		actions = [NSMutableDictionary dictionary];
 		target = [[b allTargets] anyObject];
         UIControlEvents events = [b allControlEvents];
@@ -197,7 +211,7 @@ UIControl* ReplaceWithGlowButton(UIControl* c) {
 	CGRect f = self.bounds;
 	UIImage* img = self.selected ? selImage : image;
 	if (!img) {
-		[self fillRoundedBounds: [UIColor grayColor]];
+		[self fillRoundedBounds: self.backgroundColor];
 	}
 	else {
         CGRect imgFrame = CGRectMake(0,0,img.size.width, img.size.height);
