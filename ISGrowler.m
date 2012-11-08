@@ -159,9 +159,18 @@ static Growler* growler = nil;
 		//[self.view setOpaque: FALSE];
 		//[self.view setAlpha: 0.2];
 		self.busyView.hidden = TRUE;
-        
+
+        if (!title.length) {
+            self.tMessage.font = self.tTitle.font;
+        }
+        else if (!message.length) {
+            message = title;
+            title = @"";
+            self.tMessage.font = self.tTitle.font;
+        }
 		self.tTitle.text = title;
 		self.tMessage.text = message;
+        
 		CGRect f = self.coreView.frame;
 		CGRect tf = self.tMessage.frame;
 		CGSize maxSize = CGSizeMake(f.size.width, tf.size.height * 20);
