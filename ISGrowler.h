@@ -24,6 +24,7 @@ typedef void (^VoidCallbackBlock) (id context);
 	NSArray* buttons;
 }
 @property (nonatomic) u8 choice;
+@property (nonatomic) BOOL disablePulse;
 @property (nonatomic, strong) UIView* coreView;
 @property (nonatomic, strong) UIActivityIndicatorView* busyView;
 @property (nonatomic, strong) UIProgressView* progressView;
@@ -39,10 +40,12 @@ typedef void (^VoidCallbackBlock) (id context);
 
 - (void) dismiss;
 
++ (Growler*) currentGrowler;
 + (Growler*) growlerWithTitle: (NSString*) title message:(NSString*) message;
 - (void) setButton0:(NSString*)s target: (id) target action: (SEL) action;
 - (void) setButton1:(NSString*)s target: (id) target action: (SEL) action;
 - (void) setButton2:(NSString*)s target: (id) target action: (SEL) action;
+- (void) showWithViewController: (UIViewController*) vc;
 
 @end
 

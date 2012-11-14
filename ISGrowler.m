@@ -125,7 +125,7 @@ static Growler* growler = nil;
     return NO;
 }
 
-@synthesize coreView, busyView, progressView, tTitle, tMessage, didEndSelector, context, b0, b1, b2, choice, handler;
+@synthesize coreView, disablePulse, busyView, progressView, tTitle, tMessage, didEndSelector, context, b0, b1, b2, choice, handler;
 
 - (BOOL)canBecomeFirstResponder {
     return TRUE;
@@ -137,6 +137,10 @@ static Growler* growler = nil;
 	delegate = d;
 	//CGRect f = tMessage.frame;
 	//tMessage.frame = f;
+}
+
++ (Growler*) currentGrowler {
+    return growler;
 }
 
 + (Growler*) growlerWithTitle: (NSString*) title message:(NSString*) message {
@@ -210,7 +214,9 @@ static Growler* growler = nil;
 - (void) showWithViewController: (UIViewController*) vc {
     self.view.frame = vc.view.bounds;
 	[vc.view addSubviewWithFade: self.view];
-	[[self coreView] pulse];
+    if (!self.disablePulse) {
+        [[self coreView] pulse];
+    }
     [self performSelector:@selector(willAppear) withObject:nil afterDelay:0.1];
 }
 
@@ -316,4 +322,9 @@ static Growler* growler = nil;
 	//[super drawRect: r];
 	[[UIImage imageNamed:@"growl.png"] drawInRect: self.bounds];
 }
+
+- (void) setFrame: (CGRect) f {
+    [super setFrame: f];
+}
+
 @end
