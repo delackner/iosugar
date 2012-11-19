@@ -164,6 +164,15 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 
 @end
 
+@interface PieView: UIView
+
+@property (nonatomic) int d0;
+@property (nonatomic) int d1;
+
+@property (nonatomic, strong) UIColor* sliceColor;
+@property (nonatomic, strong) UIColor* pieColor;
+@end
+
 @interface MenuView: UIView {
 	CGPoint arrowOrigin;
 	BOOL loaded;

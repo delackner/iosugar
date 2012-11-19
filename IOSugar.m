@@ -506,6 +506,11 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     }
 }
 
+- (void) setCornerRadius:(float)cr {
+    cornerRadius = cr;
+    [self setNeedsDisplay];
+}
+
 - (void) drawRect: (CGRect) r {
 	if (!borderWidth)	borderWidth = RoundedEdgeStrokeWidth;
 	if (!cornerRadius)	cornerRadius = RoundedCornerRadius;
@@ -539,6 +544,30 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 	[super touchesEnded: touches withEvent: event];
 }*/
 
+
+@end
+
+@implementation PieView
+
+- (void) awakeFromNib {
+    self.sliceColor = self.backgroundColor;
+    self.backgroundColor = [UIColor clearColor];
+}
+
+- (void) setD0:(int)d0 {
+    _d0 = d0;
+    [self setNeedsDisplay];
+}
+
+- (void) setD1:(int)d1 {
+    _d1 = d1;
+    [self setNeedsDisplay];
+}
+
+- (void) drawRect: (CGRect) r {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    ISDrawPieAngle(c, r, _d0, _d1, self.pieColor, self.sliceColor);
+}
 
 @end
 
@@ -651,6 +680,18 @@ BOOL OSVersionAtLeast4(void){
     return self;
 }
 
+- (void) setBackgroundColor:(UIColor *)bg {
+    if (![bg isEqual: [UIColor clearColor]]) {
+        [super setBackgroundColor: [UIColor clearColor]];
+        [self setBgColor: bg];
+    }
+}
+
+- (void) setCornerRadius:(int)cr {
+    cornerRadius = cr;
+    [self setNeedsDisplay];
+}
+
 - (void) drawRect: (CGRect) r {
     ISFillRoundedRect(UIGraphicsGetCurrentContext(), CGRectInset(r, 1, 1), cornerRadius, bgColor, 0, 0);
     [super drawRect: r];
@@ -717,7 +758,7 @@ uint64_t FreeSpace() {
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         //NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {  
-        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %@", [error domain], [error code]);  
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %d", [error domain], [error code]);  
     }  
     
     return totalFreeSpace;
