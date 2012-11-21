@@ -236,7 +236,7 @@ extern NSUserDefaults* DEF;
 #pragma mark GCD sugar
     
 extern void dispatch_main_after(double delayInSeconds, dispatch_block_t block);
-
+extern void performBlockOnMainThread(dispatch_block_t block);
     
 #ifdef __cplusplus
 } //C

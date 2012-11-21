@@ -779,4 +779,13 @@ void dispatch_main_after(double delayInSeconds, dispatch_block_t block) {
     dispatch_after(popTime, dispatch_get_main_queue(), block);
 }
 
+void performBlockOnMainThread(dispatch_block_t block) {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
+    else {
+        block();
+    }
+}
+
 NSUserDefaults* DEF;
