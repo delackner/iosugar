@@ -60,4 +60,9 @@
     }
 }
 
+- (void) setPaths:(NSArray *)paths_ {
+    paths = paths_;
+    nextDownload = 0;
+}
+
 @end
