@@ -49,6 +49,7 @@ NSArray *array(id items, ...);
 typedef id(^Block_id_id)(id);
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 typedef unsigned char u8;
 typedef unsigned short int u16;
