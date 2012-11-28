@@ -42,14 +42,17 @@
                     return;
                 }
             }
-            nextDownload++;
             if (!self.cancelled) {
+                nextDownload++;
                 if (nextDownload < count) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [controller updateDownloadProgress: nextDownload / (float)count];
                     });
                 }
                 checkFreeSpace++;
+            }
+            else if (nextDownload > 0) {
+                nextDownload--;
             }
         }
         if (!self.cancelled) {
