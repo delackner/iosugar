@@ -228,6 +228,7 @@ extern "C" {
 extern BOOL IS_RETINA;
 BOOL OSVersionAtLeast(NSString* want);
 BOOL OSVersionAtLeast4(void);
+BOOL OSVersionAtLeast5(void);
 BOOL IsAACHardwareEncoderAvailable(void) ;
 uint64_t FreeSpace();
 NSString* DeviceModelName(void);
