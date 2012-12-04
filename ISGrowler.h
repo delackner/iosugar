@@ -41,6 +41,7 @@ typedef void (^VoidCallbackBlock) (id context);
 - (void) dismiss;
 
 + (Growler*) currentGrowler;
++ (void) setGrowlEnabled: (BOOL) e;
 + (Growler*) growlerWithTitle: (NSString*) title message:(NSString*) message;
 - (void) setButton0:(NSString*)s target: (id) target action: (SEL) action;
 - (void) setButton1:(NSString*)s target: (id) target action: (SEL) action;

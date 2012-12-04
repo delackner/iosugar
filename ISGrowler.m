@@ -2,6 +2,7 @@
 
 #define GROWL_DISMISS_SECONDS 1.9
 
+static BOOL growlEnabled = TRUE;
 static Growler* growler = nil;
 
 @interface Growler(Private)
@@ -99,18 +100,29 @@ static Growler* growler = nil;
 }
 
 - (void) updateProgress: (NSNumber*) p {
+    if (!growlEnabled) {
+        return;
+    }
     float f = [p floatValue];
     DBLog(@"%2.f complete", f);
     growler.progressView.progress = f;
 }
 
 - (void) growlEnd {
+    if (!growlEnabled) {
+        return;
+    }
+
 	if (growler) {
 		[growler dismiss];
 	}
 }
 
 - (void) growlEndNow {
+    if (!growlEnabled) {
+        return;
+    }
+
     if (growler) {
         [growler.view removeFromSuperview];
         growler = nil;
@@ -139,11 +151,21 @@ static Growler* growler = nil;
 	//tMessage.frame = f;
 }
 
++ (void) setGrowlEnabled: (BOOL) e {
+    growlEnabled = e;
+}
+
 + (Growler*) currentGrowler {
+    if (!growlEnabled) {
+        return nil;
+    }
     return growler;
 }
 
 + (Growler*) growlerWithTitle: (NSString*) title message:(NSString*) message {
+    if (!growlEnabled) {
+        return nil;
+    }
 	if (growler) {
 		[growler dismiss];
 	}
@@ -152,6 +174,9 @@ static Growler* growler = nil;
 }
 
 - (id) initWithTitle:(NSString*) title message: (NSString*) message {
+    if (!growlEnabled) {
+        return nil;
+    }
 	if (nil != (self = [super initWithNibName: @"Growler" bundle: nil])) {
 		[self view];
 		buttons = [[NSArray alloc] initWithObjects: b0, b1, b2, nil];

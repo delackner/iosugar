@@ -98,8 +98,6 @@
 	[self setNeedsDisplay];
 }
 
-#pragma clang diagnostic pop
-
 - (void) drawRect: (CGRect) r {
 	CGRect f = self.bounds;
 	UIImage* img = self.selected ? selImage : image;
@@ -204,8 +202,6 @@ UIControl* ReplaceWithGlowButton(UIControl* c) {
     [self onEnd];
     [self triggeredState: UIControlEventTouchCancel];
 }
-
-#pragma clang diagnostic pop
 
 - (void) drawRect: (CGRect) r {
 	CGRect f = self.bounds;
