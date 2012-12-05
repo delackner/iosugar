@@ -87,6 +87,10 @@ typedef enum {
 
 - (void) disableMultitouch;
 
+- (void) showBusyView;
+- (void) hideBusyView;
+- (void) showDisabledView;
+- (void) hideDisabledView;
 @end
 
 #ifdef __cplusplus

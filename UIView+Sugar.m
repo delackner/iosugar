@@ -418,6 +418,47 @@ static const float pulsesteps[3] = { 0.2f, 1/15.f, 1/7.5f };
     }
 }
 
+static char kBusyView;
+- (void) showBusyView: (BOOL) withActivityIndicator {
+    UIView* v = (UIView*)objc_getAssociatedObject(self, &kBusyView);
+    if (!v) {
+        v = [[UIView alloc] initWithFrame: self.bounds];
+        v.backgroundColor = [ColorFromRGB(0) colorWithAlphaComponent: 0.5];
+        v.opaque = FALSE;
+        v.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self addSubview: v];
+        objc_setAssociatedObject(self, &kBusyView, v, OBJC_ASSOCIATION_ASSIGN);
+     
+        if (withActivityIndicator) {
+            UIActivityIndicatorView* vb = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            [v addSubview: vb];
+            vb.center = v.center;
+            [vb startAnimating];
+            vb.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        }
+    }
+}
+
+- (void) showBusyView {
+    [self showBusyView: TRUE];
+}
+
+- (void) hideBusyView {
+    UIView* v = (UIView*)objc_getAssociatedObject(self, &kBusyView);
+    if (v) {
+        [v removeWithFade];
+        objc_setAssociatedObject(self, &kBusyView, nil, OBJC_ASSOCIATION_ASSIGN);
+    }
+}
+
+- (void) showDisabledView {
+    [self showBusyView: FALSE];
+}
+
+- (void) hideDisabledView {
+    [self hideBusyView];
+}
+
 @end
 
 
