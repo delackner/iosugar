@@ -41,7 +41,8 @@ NSArray *array(id items, ...);
 #define ARRAY(...) ([NSArray arrayWithObjects: IDARRAY(__VA_ARGS__) count: IDCOUNT(__VA_ARGS__)])
 
 #if DEBUG
-	#define DBLog(...) NSLog(__VA_ARGS__)
+    #define DBLog(args...) DBLog_(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
+    #define NSLog(args...) DBLog(args);
 #else
 #define DBLog(...)
 #endif
@@ -71,6 +72,7 @@ typedef signed long long s64;
 #import "UIView+Sugar.h"
 
 #import "ISBatchDownloader.h"
+#import "ISUniqueRequestPool.h"
 #import "ISCustomButton.h"
 #import "ISGrowler.h"
 
@@ -78,6 +80,7 @@ typedef signed long long s64;
 extern "C" {
 #endif
 	
+void DBLog_(const char *file, int line, const char *func, NSString *fmt,...);
 NSUInteger random_below(NSUInteger n);
 double Distance(CGPoint p1, CGPoint p2);
 CGRect CenterRectInRect(CGRect inner, CGRect outer);

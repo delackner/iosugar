@@ -50,6 +50,25 @@ BOOL IsRetina();
 }
 @end
 
+// Thanks to: Karl Kraft: http://www.karlkraft.com/index.php/2009/03/23/114/
+void DBLog_(const char *file, int line, const char *func, NSString *fmt,...) {
+    va_list ap;
+    
+    va_start (ap, fmt);
+    if (![fmt hasSuffix: @"\n"]) {
+        fmt = [fmt stringByAppendingString: @"\n"];
+	}
+    NSString *body =  [[NSString alloc] initWithFormat: fmt arguments: ap];
+	va_end (ap);
+	const char *thread = [[[NSThread currentThread] name] UTF8String];
+    NSString *fileName=[[NSString stringWithUTF8String:file] lastPathComponent];
+	if (thread) {
+		fprintf(stderr,"%s/%s %s:%d:: %s",thread,func,[fileName UTF8String],line,[body UTF8String]);
+	} else {
+		fprintf(stderr,"%p/%s %s:%d:: %s",[NSThread currentThread],func,[fileName UTF8String],line,[body UTF8String]);
+	}
+}
+
 //private
 BOOL IsRetina() {
     return ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))?1:0;
