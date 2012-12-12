@@ -60,13 +60,21 @@ void DBLog_(const char *file, int line, const char *func, NSString *fmt,...) {
 	}
     NSString *body =  [[NSString alloc] initWithFormat: fmt arguments: ap];
 	va_end (ap);
+    NSString* t = [[NSThread currentThread] name];
 	const char *thread = [[[NSThread currentThread] name] UTF8String];
     NSString *fileName=[[NSString stringWithUTF8String:file] lastPathComponent];
-	if (thread) {
-		fprintf(stderr,"%s/%s %s:%d:: %s",thread,func,[fileName UTF8String],line,[body UTF8String]);
+    NSString* log = nil;
+    if (thread) {
+		log = FMT(@"%@/%s %@:%d:: %@",t,func,fileName,line,body);
 	} else {
-		fprintf(stderr,"%p/%s %s:%d:: %s",[NSThread currentThread],func,[fileName UTF8String],line,[body UTF8String]);
+		log = FMT(@"%p/%s %@:%d:: %@",[NSThread currentThread],func,fileName,line,body);
 	}
+    fprintf(stderr, "%s", [log UTF8String]);
+    
+#ifdef DEBUG
+    NSString* fullLogPath = [DocumentsPath() stringByAppendingPathComponent: @"debuglog.txt"];
+    [log appendToFile:fullLogPath usingEncoding:NSUTF8StringEncoding];
+#endif
 }
 
 //private
