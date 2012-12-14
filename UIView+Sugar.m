@@ -418,9 +418,18 @@ static const float pulsesteps[3] = { 0.2f, 1/15.f, 1/7.5f };
     }
 }
 
-static char kBusyView;
+static int kBusyView = 9457;
 - (void) showBusyView: (BOOL) withActivityIndicator {
-    UIView* v = (UIView*)objc_getAssociatedObject(self, &kBusyView);
+    __block UIView* v = (UIView*)objc_getAssociatedObject(self, &kBusyView);
+    void (^addBusyView)() = ^{
+        UIActivityIndicatorView* vb = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        vb.tag = kBusyView;
+        [v addSubview: vb];
+        vb.center = v.center;
+        [vb startAnimating];
+        vb.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    };
+    
     if (!v) {
         v = [[UIView alloc] initWithFrame: self.bounds];
         v.backgroundColor = [ColorFromRGB(0) colorWithAlphaComponent: 0.5];
@@ -428,13 +437,21 @@ static char kBusyView;
         v.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview: v];
         objc_setAssociatedObject(self, &kBusyView, v, OBJC_ASSOCIATION_ASSIGN);
-     
         if (withActivityIndicator) {
-            UIActivityIndicatorView* vb = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [v addSubview: vb];
-            vb.center = v.center;
-            [vb startAnimating];
-            vb.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+            addBusyView();
+        }
+    }
+    else {
+        UIView* vb = [v viewWithTag: kBusyView];
+        if (withActivityIndicator){
+            if (!vb) {
+                addBusyView();
+            }
+        }
+        else {
+            if (vb) {
+                [vb removeFromSuperview];
+            }
         }
     }
 }
