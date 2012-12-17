@@ -168,6 +168,14 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 	id d = [NSData dataWithBytesNoCopy:bytes length:sz freeWhenDone:FALSE];
 	[self setObject: d forKey: key];
 }
+
+- (void) setIntegerIfGreater:(NSInteger)value forKey:(NSString *)key {
+    int current = [DEF integerForKey: key];
+    if (current < value) {
+        [DEF setInteger:value forKey:key];
+    }
+}
+
 @end
 
 @implementation UIViewController(Sugar)

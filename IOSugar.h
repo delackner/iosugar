@@ -112,6 +112,7 @@ u8 BitCount(u32 x);
 
 @interface NSUserDefaults (Sugar)
 - (void) setKey: (NSString*) key bytes: (void*) bytes length: (int) sz;
+- (void) setIntegerIfGreater:(NSInteger)value forKey:(NSString *)key;
 @end
 
 @interface UIActionSheet(ISAnimation)
