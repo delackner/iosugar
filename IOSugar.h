@@ -72,7 +72,9 @@ typedef signed long long s64;
 #import "UIView+Sugar.h"
 
 #import "ISBatchDownloader.h"
+#ifdef IOSUGAR_WITH_REQUEST_POOL
 #import "ISUniqueRequestPool.h"
+#endif
 #import "ISCustomButton.h"
 #import "ISGrowler.h"
 
