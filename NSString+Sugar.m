@@ -33,6 +33,7 @@ NSString* MakeShortString(NSString* pString, int max) {
 
 NSString* FileLastModifiedString(NSString* path) {
 	NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale: [[NSLocale alloc] initWithLocaleIdentifier: @"en_US"]];
 	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	
@@ -114,6 +115,7 @@ NSString* Timestamp(NSDate* date) {
     static NSDateFormatter* d = nil;
     if (!d) {
         d = [[NSDateFormatter alloc] init];
+        [d setLocale: [[NSLocale alloc] initWithLocaleIdentifier: @"en_US"]];
     }
     [d setDateFormat: @"yyyyMMddHHmmss"];
     return [d stringFromDate: date];
@@ -123,6 +125,7 @@ NSString* Datestamp(NSDate* date) {
     static NSDateFormatter* d = nil;
     if (!d) {
         d = [[NSDateFormatter alloc] init];
+        [d setLocale: [[NSLocale alloc] initWithLocaleIdentifier: @"en_US"]];
     }
     [d setDateFormat: @"yyyyMMdd"];
     return [d stringFromDate: date];
