@@ -337,14 +337,18 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     if (vc) {
         [[NSNotificationCenter defaultCenter] postNotificationName:SegueNotification object: vc];
         [self prepareVCForPush: vc animated: animated];
-        if (!animated) {
-            [self.navigationController pushViewController:vc animated:NO];
+        if (!animated || ![vc segueShouldFade]) {
+            [self.navigationController pushViewController:vc animated: animated];
             self.view.userInteractionEnabled = TRUE;
         }
         else {
             [self pushWithFade: vc];
         }
     }
+}
+
+- (BOOL) segueShouldFade {
+    return TRUE;
 }
 
 - (void) segueToVC: (UIViewController*) vc {
