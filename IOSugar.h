@@ -135,6 +135,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className ;
 - (void) popWithFade;
 - (void) popMultiple:(int) n;
+- (void) popReplacingParentVC: (UIViewController*) newParent;
 - (void) popToVC: (UIViewController*) parent;
 
 - (void) pushVC: (UIViewController*) vc withSlideFromEdge: (ScreenEdge) edge;

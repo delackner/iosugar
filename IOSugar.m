@@ -210,6 +210,25 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     }];
 }
 
+- (void) popReplacingParentVC: (UIViewController*) newParent
+{
+    UINavigationController* n = self.navigationController;
+    UIView* matrix = n.view;
+    UIImage* img = [matrix asImage];
+    UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
+    imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+    
+    [n popViewControllerAnimated: NO];
+    [n popViewControllerAnimated: NO];
+    [[n.viewControllers lastObject] segueToVC:newParent animated:NO];
+    [matrix addSubview: imageView];
+    [UIView animateWithDuration: 0.2 animations: ^{
+        [imageView setFrameX: -imageView.frame.size.width];
+    } completion: ^(BOOL fin) {
+        [imageView removeFromSuperview];
+    }];
+}
+
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className {
     UIViewController* vc = [[NSClassFromString(className) alloc] initWithNibName:className bundle:[NSBundle mainBundle]];
     [self pushWithFade: vc];
@@ -377,16 +396,17 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     if (0 == [a count] - 2) {
         [n setNavigationBarHidden: TRUE animated: TRUE];
     }
-    UIViewController* prev = [a objectAtIndex: [a count] - 2];
-    UIImage* img = [[prev view] asImage];
-    UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
-    imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
-    [self.view.superview insertSubview: imageView belowSubview: self.view];
-    [self.view removeViewWithSlide:self.view fromScreenEdge:edge duration:0.2 completion: ^(BOOL finished) 
-     {
-         [imageView removeFromSuperview];
-         [n popViewControllerAnimated: NO];
-                     }];
+    [n popViewControllerAnimated: YES];
+//    UIViewController* prev = [a objectAtIndex: [a count] - 2];
+//    UIImage* img = [[prev view] asImage];
+//    UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
+//    imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+//    [self.view.superview insertSubview: imageView belowSubview: self.view];
+//    [self.view removeViewWithSlide:self.view fromScreenEdge:edge duration:0.2 completion: ^(BOOL finished) 
+//     {
+//         [imageView removeFromSuperview];
+//         [n popViewControllerAnimated: NO];
+//                     }];
 }
 
 -(void) pushVC_:(NSString *)animationID finished:(NSNumber *) finished context:(void *)context 
