@@ -346,7 +346,7 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     NSLog(@"%@ segueTo: %@", self, vc);
     self.view.userInteractionEnabled = FALSE;
     objc_setAssociatedObject(vc.view, &navigationRetainKey, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    if ([vc.navigationItem leftBarButtonItem] || [vc.navigationItem rightBarButtonItem]) {
+    if ([vc.navigationItem leftBarButtonItem] || [vc.navigationItem rightBarButtonItem] || [vc showNavigationBarEvenIfNoButtons]) {
         [self.navigationController setNavigationBarHidden:NO animated: YES];
     }
     return vc;
@@ -364,6 +364,10 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
             [self pushWithFade: vc];
         }
     }
+}
+
+- (BOOL) showNavigationBarEvenIfNoButtons {
+    return FALSE;
 }
 
 - (BOOL) segueShouldFade {
