@@ -140,6 +140,13 @@ NSString* Datestamp(NSDate* date) {
     return [[self stringByDeletingPathExtension] stringByAppendingPathExtension: newExtension];
 }
 
+- (NSString*) urlEncode {
+    return (NSString*)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                              (CFStringRef)self,
+                                                              NULL,
+                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                              kCFStringEncodingUTF8));
+}
 
 - (NSString*) strip: (NSString*) strip {
 	NSCharacterSet* stripSet = [NSCharacterSet characterSetWithCharactersInString: strip];

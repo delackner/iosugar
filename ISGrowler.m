@@ -238,6 +238,7 @@ static Growler* growler = nil;
 
 - (void) showWithViewController: (UIViewController*) vc {
     self.view.frame = vc.view.bounds;
+    self.coreView.center = self.view.center;
 	[vc.view addSubviewWithFade: self.view];
     if (!self.disablePulse) {
         [[self coreView] pulse];
@@ -345,7 +346,15 @@ static Growler* growler = nil;
 }
 - (void) drawRect:(CGRect) r {
 	//[super drawRect: r];
-	[[UIImage imageNamed:@"growl.png"] drawInRect: self.bounds];
+    UIImage* top = [UIImage imageNamed: @"growl_top.png"];
+    UIImage* mid = [UIImage imageNamed: @"growl_middle.png"];
+    UIImage* bot = [UIImage imageNamed: @"growl_bottom.png"];
+    CGRect f = self.bounds;
+    [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
+    [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];
+    f.origin.y += top.size.height;
+    f.size.height -= top.size.height + bot.size.height;
+    [mid drawInRect: f];
 }
 
 - (void) setFrame: (CGRect) f {

@@ -36,7 +36,7 @@ NSString* Datestamp(NSDate* date);
 - (NSString*) strip: (NSString*) strip;
 - (NSString*) trim;
 - (NSString*) withPathExtension: (NSString*) newExtension;
-
+- (NSString*) urlEncode;
 - (BOOL)appendToFile:(NSString *)path usingEncoding:(NSStringEncoding)encoding;
 
 #pragma mark Drawing
