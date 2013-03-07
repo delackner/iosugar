@@ -221,12 +221,30 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     [n popViewControllerAnimated: NO];
     [n popViewControllerAnimated: NO];
     [[n.viewControllers lastObject] segueToVC:newParent animated:NO];
-    [matrix addSubview: imageView];
-    [UIView animateWithDuration: 0.2 animations: ^{
-        [imageView setFrameX: -imageView.frame.size.width];
-    } completion: ^(BOOL fin) {
-        [imageView removeFromSuperview];
-    }];
+    
+    if ([newParent segueShouldFade]) {
+        [matrix addSubview: imageView];
+        [UIView animateWithDuration: 0.2 animations: ^{
+            imageView.alpha = 0.f;
+        } completion: ^(BOOL fin) {
+            [imageView removeFromSuperview];
+        }];
+    }
+    else {
+        img = [matrix asImage];
+        UIImageView* imageView2 = [[UIImageView alloc] initWithImage: img];
+        imageView2.frame = CGRectMake(-img.size.width,0, img.size.width, img.size.height);
+        
+        [matrix addSubview: imageView];
+        [matrix addSubview: imageView2];
+        [UIView animateWithDuration: 0.2 animations: ^{
+            [imageView setFrameX: imageView.frame.size.width];
+            [imageView2 setFrameX: 0];
+        } completion: ^(BOOL fin) {
+            [imageView removeFromSuperview];
+            [imageView2 removeFromSuperview];
+        }];
+    }
 }
 
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className {
