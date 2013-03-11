@@ -418,6 +418,7 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     if (0 == [a count] - 2) {
         [n setNavigationBarHidden: TRUE animated: TRUE];
     }
+    [self willPop];
     [n popViewControllerAnimated: YES];
 //    UIViewController* prev = [a objectAtIndex: [a count] - 2];
 //    UIImage* img = [[prev view] asImage];
