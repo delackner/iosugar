@@ -857,6 +857,15 @@ uint64_t FreeSpace() {
     return totalFreeSpace;
 }
 
+unsigned long long int FolderSize(NSString * path) {
+    NSFileManager* fm = [NSFileManager defaultManager];
+    unsigned long long int sz = 0;
+    for (NSString* name in [fm subpathsOfDirectoryAtPath:path error:nil]) {
+        sz += [[fm attributesOfItemAtPath:[path stringByAppendingPathComponent: name] error: nil] fileSize];
+    }
+    return sz;
+}
+
 NSString* DeviceModelName(void) {
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);     

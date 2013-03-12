@@ -239,6 +239,8 @@ BOOL OSVersionAtLeast4(void);
 BOOL OSVersionAtLeast5(void);
 BOOL IsAACHardwareEncoderAvailable(void) ;
 uint64_t FreeSpace();
+unsigned long long int FolderSize(NSString * path);
+
 NSString* DeviceModelName(void);
 
 extern NSUserDefaults* DEF;
