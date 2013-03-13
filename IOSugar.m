@@ -190,16 +190,48 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 	return m;
 }
 
-- (void) pushWithFade: (UIViewController*) vc {
+- (void) segueToVCWithFlip: (UIViewController*) vc {
+    UINavigationController* n = self.navigationController;
+    n.view.window.backgroundColor = [UIColor blackColor];
+    [self prepareVCForPush: vc animated: TRUE];
+    UIImageView* imageView = [self frozenImageView];
+    [n pushViewController:vc animated:NO];
+    UIImageView* imageView2 = [self frozenImageView];
+    [vc viewWillAppear: YES];
+    [n.view addSubview: imageView];
+    [UIView transitionFromView:imageView toView:imageView2 duration:0.4 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
+        [imageView2 removeFromSuperview];
+        self.view.userInteractionEnabled = TRUE;
+    }];
+}
+
+- (void) popWithFlip {
+    UINavigationController* n = self.navigationController;
+    n.view.window.backgroundColor = [UIColor blackColor];
+    UIImageView* imageView = [self frozenImageView];
+    [self popMultiple:1 animated:NO];
+    UIImageView* imageView2 = [n.topViewController frozenImageView];
+    [n.view addSubview: imageView];
+    [UIView transitionFromView:imageView toView:imageView2 duration:0.4 options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
+        [imageView2 removeFromSuperview];
+    }];
+}
+
+- (UIImageView*) frozenImageView {
     UIView* matrix = self.navigationController.view;
     UIImage* img = [matrix asImage];
     UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
     imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+    return imageView;
+}
 
+- (void) pushWithFade: (UIViewController*) vc {
+    [self prepareVCForPush: vc animated: TRUE];
+    UIImageView* imageView = [self frozenImageView];
     [[self navigationController] pushViewController:vc animated:NO];
     [vc viewWillAppear: YES];
     imageView.alpha = 1;
-    [matrix addSubview: imageView];
+    [self.navigationController.view addSubview: imageView];
     
     [UIView animateWithDuration:0.2 animations:^{
         imageView.alpha = 0;
@@ -271,6 +303,10 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 }
 
 - (void) popMultiple:(int) mul {
+    [self popMultiple: mul animated: YES];
+}
+
+- (void) popMultiple:(int) mul animated: (BOOL) anim {
     static BOOL popping = FALSE;
     if (popping) {
         return;
@@ -278,20 +314,24 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     popping = TRUE;
     UINavigationController* n = self.navigationController;
 
-    UIView* matrix = n.view;
-    UIImage* img = [matrix asImage];
-    UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
-    imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+    UIView* matrix = nil;
+    UIImageView* imageView;
+    if (anim) {
+        matrix = n.view;
+        UIImage* img = [matrix asImage];
+        imageView = [[UIImageView alloc] initWithImage: img];
+        imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+    }
     
     NSArray* a = [n viewControllers];
     UIViewController* prev = [a objectAtIndex: [a count] - (1 + mul)];
 
     if (0 == [a count] - (1 + mul)) {
-        [self.navigationController setNavigationBarHidden: TRUE animated: TRUE];
+        [self.navigationController setNavigationBarHidden: TRUE animated: anim];
     }
     else { 
         BOOL hide = ![prev.navigationItem leftBarButtonItem] && ![prev.navigationItem rightBarButtonItem];
-        [self.navigationController setNavigationBarHidden:hide animated: YES];
+        [self.navigationController setNavigationBarHidden:hide animated: anim];
     }
     
     int count = mul;
@@ -304,13 +344,14 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
         [n popViewControllerAnimated: NO];
     }
 
-    [matrix addSubview: imageView];
-    [UIView animateWithDuration: 0.2 animations: ^{
-        imageView.alpha = 0;
-    } completion: ^(BOOL fin) {
-        [imageView removeFromSuperview];
-    }];
-    
+    if (anim) {
+        [matrix addSubview: imageView];
+        [UIView animateWithDuration: 0.2 animations: ^{
+            imageView.alpha = 0;
+        } completion: ^(BOOL fin) {
+            [imageView removeFromSuperview];
+        }];
+    }
     popping = FALSE;
 }
 
@@ -373,8 +414,8 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 - (void) segueToVC: (UIViewController*) vc animated: (BOOL) animated {
     if (vc) {
         [[NSNotificationCenter defaultCenter] postNotificationName:SegueNotification object: vc];
-        [self prepareVCForPush: vc animated: animated];
         if (!animated || ![vc segueShouldFade]) {
+            [self prepareVCForPush: vc animated: animated];
             [self.navigationController pushViewController:vc animated: animated];
             self.view.userInteractionEnabled = TRUE;
         }
@@ -420,16 +461,6 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     }
     [self willPop];
     [n popViewControllerAnimated: YES];
-//    UIViewController* prev = [a objectAtIndex: [a count] - 2];
-//    UIImage* img = [[prev view] asImage];
-//    UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
-//    imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
-//    [self.view.superview insertSubview: imageView belowSubview: self.view];
-//    [self.view removeViewWithSlide:self.view fromScreenEdge:edge duration:0.2 completion: ^(BOOL finished) 
-//     {
-//         [imageView removeFromSuperview];
-//         [n popViewControllerAnimated: NO];
-//                     }];
 }
 
 -(void) pushVC_:(NSString *)animationID finished:(NSNumber *) finished context:(void *)context 

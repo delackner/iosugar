@@ -134,6 +134,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 // navigation-based transitions
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className ;
 - (void) popWithFade;
+- (void) popWithFlip;
 - (void) popMultiple:(int) n;
 - (void) popReplacingParentVC: (UIViewController*) newParent;
 - (void) popToVC: (UIViewController*) parent;
@@ -146,6 +147,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (BOOL) segueShouldFade;
 - (void) segueToVC: (UIViewController*) vc;
 - (void) segueToVC: (UIViewController*) vc animated: (BOOL) animated;
+- (void) segueToVCWithFlip: (UIViewController*) vc ;
 - (UIViewController*) fadeToSubviewController: (NSString*) className;
 @end
 
