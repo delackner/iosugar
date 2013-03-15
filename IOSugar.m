@@ -130,11 +130,19 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     [fm removeItemAtPath: tmpPath error: nil];
     NSOutputStream* s = [[NSOutputStream alloc] initToFileAtPath:tmpPath append:NO];
     [s open];
-    [NSPropertyListSerialization writePropertyList:d toStream: s
-                                                              format:NSPropertyListBinaryFormat_v1_0
-                                                             options: 0
-                                                               error:&error];
-    [s close];
+    @try {
+        [NSPropertyListSerialization writePropertyList:d toStream: s
+                                                format:NSPropertyListBinaryFormat_v1_0
+                                               options: 0
+                                                 error:&error];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"error writing binary plist: %@", exception);
+        error = [NSError errorWithDomain:@"IOSUGAR" code:0 userInfo:nil];
+    }
+    @finally {
+        [s close];
+    }
     if (error) {
         NSLog(@"error writing binary plist: %@", error);
         [fm removeItemAtPath:tmpPath error:nil];
