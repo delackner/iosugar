@@ -122,45 +122,41 @@ NSUInteger random_below(NSUInteger n) {
     return random() % n;
 }
 
+DEFS(kSyncWriteDictBinary);
 BOOL WriteDictionaryBinary(id d, NSString* path) {
     BOOL ok = FALSE;
     NSFileManager* fm = [NSFileManager defaultManager];
     NSError *error = nil;
-    NSString* tmpPath = FMT(@"%@-tmp", path);
-    [fm removeItemAtPath: tmpPath error: nil];
-    NSOutputStream* s = [[NSOutputStream alloc] initToFileAtPath:tmpPath append:NO];
-    [s open];
-    @try {
+    @synchronized(kSyncWriteDictBinary) {
+        NSString* tmpPath = FMT(@"%@-tmp", path);
+        [fm removeItemAtPath: tmpPath error: nil];
+        NSOutputStream* s = [[NSOutputStream alloc] initToFileAtPath:tmpPath append:NO];
+        [s open];
         [NSPropertyListSerialization writePropertyList:d toStream: s
                                                 format:NSPropertyListBinaryFormat_v1_0
                                                options: 0
                                                  error:&error];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"error writing binary plist: %@", exception);
-        error = [NSError errorWithDomain:@"IOSUGAR" code:0 userInfo:nil];
-    }
-    @finally {
         [s close];
-    }
-    if (error) {
-        NSLog(@"error writing binary plist: %@", error);
-        [fm removeItemAtPath:tmpPath error:nil];
-    }
-    else {
-        NSString* bakPath = FMT(@"%@-bak", path);
-
-        [fm removeItemAtPath: bakPath error:nil];
-        [fm moveItemAtPath:path toPath: bakPath error:nil];
-        [fm moveItemAtPath:tmpPath toPath:path error:&error];
+    
         if (error) {
-            NSLog(@"error writing binary plist (atomic move): %@", error);
-            [fm moveItemAtPath: bakPath toPath: path error: nil];
-            [fm removeItemAtPath: tmpPath error: nil];
+            NSLog(@"error writing binary plist: %@", error);
+            [fm removeItemAtPath:tmpPath error:nil];
         }
         else {
-            [fm removeItemAtPath: bakPath error: nil];
-            ok = TRUE;
+            NSString* bakPath = FMT(@"%@-bak", path);
+            
+            [fm removeItemAtPath: bakPath error:nil];
+            [fm moveItemAtPath:path toPath: bakPath error:nil];
+            [fm moveItemAtPath:tmpPath toPath:path error:&error];
+            if (error) {
+                NSLog(@"error writing binary plist (atomic move): %@", error);
+                [fm moveItemAtPath: bakPath toPath: path error: nil];
+                [fm removeItemAtPath: tmpPath error: nil];
+            }
+            else {
+                [fm removeItemAtPath: bakPath error: nil];
+                ok = TRUE;
+            }
         }
     }
     return ok;
