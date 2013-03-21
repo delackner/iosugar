@@ -49,11 +49,16 @@ static Growler* growler = nil;
 
 - (Growler*) growl:(NSString *)title message:(NSString *)message then: (void (^)(void))onOK {
 	Growler* g = [Growler growlerWithTitle: title message: message];
-	g.handler = ^(int ignored){
+    if (g) {
+        g.handler = ^(int ignored){
+            onOK();
+        };
+        [g setButton1:LS(@"OK") target:nil action:@selector(pressed0:)];
+        [g showWithViewController: self];
+    }
+    else if (onOK) {
         onOK();
-    };
-    [g setButton1:LS(@"OK") target:nil action:@selector(pressed0:)];
-	[g showWithViewController: self];
+    }
 	return g;
 }
 
