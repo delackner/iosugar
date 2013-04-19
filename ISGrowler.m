@@ -211,6 +211,10 @@ static Growler* growler = nil;
 		CGSize sz = [message sizeWithFont: tMessage.font constrainedToSize: maxSize lineBreakMode: UILineBreakModeWordWrap];
 		if (sz.height > tf.size.height) {
 			float diff = sz.height - tf.size.height;
+            float avail = self.view.frame.size.height - f.size.height - (coreView.frame.size.height - CGRectGetMaxY(tMessage.frame));
+            if (diff > avail) {
+                diff = avail;
+            }
 			f.size.height += diff;
 			tf.size.height += diff;
 			coreView.frame = f;
@@ -341,6 +345,9 @@ static Growler* growler = nil;
 	[self end];
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 @end
 
 @implementation GrowlView

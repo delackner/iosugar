@@ -14,7 +14,7 @@ typedef void (^VoidCallbackBlock) (id context);
 	id context;
 	
 	IBOutlet UILabel* tTitle;
-	IBOutlet UILabel* tMessage;
+	IBOutlet UITextView* tMessage;
 	IBOutlet UIButton* b0;
 	IBOutlet UIButton* b1;
 	IBOutlet UIButton* b2;
@@ -29,7 +29,7 @@ typedef void (^VoidCallbackBlock) (id context);
 @property (nonatomic, strong) UIActivityIndicatorView* busyView;
 @property (nonatomic, strong) UIProgressView* progressView;
 @property (nonatomic, strong) UILabel* tTitle;
-@property (nonatomic, strong) UILabel* tMessage;
+@property (nonatomic, strong) IBOutlet UITextView *tMessage;
 @property (nonatomic, strong) UIButton* b0;
 @property (nonatomic, strong) UIButton* b1;
 @property (nonatomic, strong) UIButton* b2;
