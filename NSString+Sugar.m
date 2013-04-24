@@ -1,5 +1,9 @@
 #import "NSString+Sugar.h"
 
+#ifndef DBLog
+#define DBLog NSLog
+#endif
+
 NSString* MakeShortString(NSString* pString, int max) {
 	NSString* outString;
 	
@@ -54,7 +58,15 @@ NSString* FileLastModifiedString(NSString* path) {
 NSString* ResourcePath(NSString* file) {
     static NSString* part = nil;
     if (!part) {
+#if TARGET_OS_IPHONE
         part = [[[NSBundle mainBundle] resourcePath] stringByAppendingString: @"/"];
+#else
+        NSString* root = [[NSBundle mainBundle] resourcePath];
+        if (!root) {
+            root = @ STRINGIZE(PROJECT_DIR);
+        }
+        part = [root stringByAppendingString: @"/"];
+#endif
     }
     return [part stringByAppendingString: file];
 }
@@ -216,11 +228,13 @@ NSString* Datestamp(NSDate* date) {
     return YES;
 }
 
+#if TARGET_OS_IPHONE
 - (void) drawWithFont: (UIFont*) font centeredInRect: (CGRect) r {
 	float fontSize;
 	CGSize textSize = [self sizeWithFont: font constrainedToSize: r.size];
 	CGRect textRect = CGRectMake(r.origin.x + (r.size.width - textSize.width)/2, r.origin.y + (r.size.height - [font pointSize])/2, r.size.width, r.size.height);
 	[self drawAtPoint:textRect.origin forWidth:textRect.size.width withFont:font minFontSize:8 actualFontSize:&fontSize lineBreakMode:UILineBreakModeClip baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
 }
+#endif
 
 @end

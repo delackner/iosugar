@@ -40,6 +40,7 @@ NSString* Datestamp(NSDate* date);
 - (BOOL)appendToFile:(NSString *)path usingEncoding:(NSStringEncoding)encoding;
 
 #pragma mark Drawing
+#if TARGET_OS_IPHONE
 - (void) drawWithFont: (UIFont*) font centeredInRect: (CGRect) r ;
-
+#endif
 @end
