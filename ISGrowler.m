@@ -203,27 +203,7 @@ static Growler* growler = nil;
             self.tMessage.font = self.tTitle.font;
         }
 		self.tTitle.text = title;
-		self.tMessage.text = message;
-        
-		CGRect f = self.coreView.frame;
-		CGRect tf = self.tMessage.frame;
-		CGSize maxSize = CGSizeMake(self.tMessage.frame.size.width, tf.size.height * 20);
-		CGSize sz = [message sizeWithFont: tMessage.font constrainedToSize: maxSize lineBreakMode: UILineBreakModeWordWrap];
-		if (sz.height > tf.size.height) {
-			float diff = sz.height - tf.size.height;
-            float avail = self.view.frame.size.height - f.size.height - (coreView.frame.size.height - CGRectGetMaxY(tMessage.frame));
-            if (diff > avail) {
-                diff = avail;
-            }
-			f.size.height += diff;
-			tf.size.height += diff;
-			coreView.frame = f;
-			tMessage.frame = tf;
-			
-			f = busyView.frame;
-			f.origin.y = CGRectGetMaxY(tf) + 8;
-			busyView.frame = f;
-		}
+		self.tMessage.text = message;        
 	}
 	return self;
 }
@@ -246,6 +226,25 @@ static Growler* growler = nil;
 }
 
 - (void) showWithViewController: (UIViewController*) vc {
+    CGRect f = self.coreView.frame;
+    CGRect tf = self.tMessage.frame;
+    CGSize sz = tMessage.contentSize;
+    if (sz.height > tf.size.height) {
+        float diff = sz.height - tf.size.height;
+        float avail = self.view.frame.size.height - f.size.height - (coreView.frame.size.height - CGRectGetMaxY(tMessage.frame));
+        if (diff > avail) {
+            diff = avail;
+        }
+        f.size.height += diff;
+        tf.size.height += diff;
+        coreView.frame = f;
+        tMessage.frame = tf;
+        
+        f = busyView.frame;
+        f.origin.y = CGRectGetMaxY(tf) + 8;
+        busyView.frame = f;
+    }
+
     self.view.frame = vc.view.bounds;
     self.coreView.center = self.view.center;
 	[vc.view addSubviewWithFade: self.view];
