@@ -387,9 +387,13 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 }
 
 - (UIViewController*) segueTo: (NSString*) className {
+    return [self segueTo: className animated: YES];
+}
+
+- (UIViewController*) segueTo: (NSString*) className animated: (BOOL) anim {
     UIViewController* vc = [[NSClassFromString(className) alloc] initWithNibName:className bundle:[NSBundle mainBundle]];
     if (vc) {
-        [self segueToVC: vc];
+        [self segueToVC: vc animated: anim];
     }
     else {
         NSLog(@"Failed segue: couldnt load %@", className);

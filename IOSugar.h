@@ -131,6 +131,8 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (UIViewController*) showViewFromNibWithFade:(NSString*) className ;
 - (UIViewController*) showViewFromNibWithCurlUp:(NSString*) className ;
 
+- (UIImageView*) frozenImageView;
+
 // navigation-based transitions
 - (UIViewController*) pushViewFromNibWithFade: (NSString*) className ;
 - (void) popWithFade;
@@ -144,6 +146,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (void) willPop;
 - (void) setBackButton: (NSString*) title action: (SEL) action;
 - (UIViewController*) segueTo: (NSString*) className;
+- (UIViewController*) segueTo: (NSString*) className animated: (BOOL) anim;
 - (BOOL) segueShouldFade;
 - (void) segueToVC: (UIViewController*) vc;
 - (void) segueToVC: (UIViewController*) vc animated: (BOOL) animated;
