@@ -414,7 +414,7 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     self.view.userInteractionEnabled = FALSE;
     objc_setAssociatedObject(vc.view, &navigationRetainKey, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if ([vc.navigationItem leftBarButtonItem] || [vc.navigationItem rightBarButtonItem] || [vc showNavigationBarEvenIfNoButtons]) {
-        [self.navigationController setNavigationBarHidden:NO animated: YES];
+        [self.navigationController setNavigationBarHidden:NO animated: anim];
     }
     return vc;
 }

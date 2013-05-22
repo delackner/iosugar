@@ -138,6 +138,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (void) popWithFade;
 - (void) popWithFlip;
 - (void) popMultiple:(int) n;
+- (void) popMultiple:(int) mul animated: (BOOL) anim;
 - (void) popReplacingParentVC: (UIViewController*) newParent;
 - (void) popToVC: (UIViewController*) parent;
 
