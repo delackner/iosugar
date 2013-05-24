@@ -406,7 +406,7 @@ static const float pulsesteps[3] = { 0.2f, 1/15.f, 1/7.5f };
 	r.size.width -= width;
 	r.origin.x += width / 2;
 	r.origin.y += width / 2;
-	ISFillRoundedRect(UIGraphicsGetCurrentContext(), r, radius, color, bColor, 0);
+	ISFillRoundedRect(UIGraphicsGetCurrentContext(), r, radius, color, bColor, width);
 }
 
 - (void) disableMultitouch {
@@ -524,11 +524,11 @@ void ISStrokeRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* col
 	CGContextDrawPath(c, kCGPathStroke);
 }
 
-void ISFillRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* fill, UIColor* border, int borderWidth) {
+void ISFillRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* fill, UIColor* border, float borderWidth) {
 	if (!border) {
         border = fill;
     }
-    if (!borderWidth) {
+    if (borderWidth < 0.01) {
         borderWidth = RoundedEdgeStrokeWidth;
     }
     //CGContextSetAllowsAntialiasing(c, true);

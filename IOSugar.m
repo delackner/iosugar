@@ -633,7 +633,7 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 }
 
 - (void) drawRect: (CGRect) r {
-	if (!borderWidth)	borderWidth = RoundedEdgeStrokeWidth;
+	if (borderWidth < 0.01)	borderWidth = RoundedEdgeStrokeWidth;
 	if (!cornerRadius)	cornerRadius = RoundedCornerRadius;
     [self fillRoundedBounds: fillColor borderColor: borderColor borderWidth: borderWidth cornerRadius: cornerRadius];
     [super drawRect: r];

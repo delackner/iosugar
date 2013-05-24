@@ -104,7 +104,7 @@ extern "C" {
     void ISClipRoundedRect(CGContextRef c, CGRect rect, float radius);
     void ISDrawPieAngle(CGContextRef c, CGRect rect, int d0, int d1, UIColor* pieColor, UIColor* sliceColor);
     void ISStrokeRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* color);
-    void ISFillRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* fill, UIColor* border, int borderWidth);
+    void ISFillRoundedRect(CGContextRef c, CGRect rect, float radius, UIColor* fill, UIColor* border, float borderWidth);
     void ISDrawRetinaLine(CGContextRef c, CGRect r, UIColor* color);
 
 #ifdef __cplusplus
