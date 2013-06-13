@@ -176,4 +176,8 @@
     return result;
 }
 
+- (void) savePNG: (NSString*) path {
+    [UIImagePNGRepresentation(self) writeToFile: path atomically: YES];
+}
+
 @end

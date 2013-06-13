@@ -619,11 +619,14 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 @synthesize cornerRadius;
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
-    self.fillColor = [self backgroundColor];
-    self.borderColor = [UIColor clearColor];//[self backgroundColor];
-    if (newSuperview) {
-		[self setOpaque: NO];
-        [self setBackgroundColor: [UIColor clearColor]];//[newSuperview backgroundColor]];
+    if (!loaded) {
+        loaded = TRUE;
+        self.fillColor = [self backgroundColor];
+        self.borderColor = [UIColor clearColor];//[self backgroundColor];
+        if (newSuperview) {
+            [self setOpaque: NO];
+            [self setBackgroundColor: [UIColor clearColor]];//[newSuperview backgroundColor]];
+        }
     }
 }
 

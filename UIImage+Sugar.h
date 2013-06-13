@@ -17,5 +17,6 @@
 - (void) drawCentered: (CGPoint) p alpha: (float) a;
 - (UIImage*) imageWithBadge: (UIImage*) badge;
 - (UIImage*) imageWithBadge: (UIImage*) badge dimmed: (float) dimmed;
+- (void) savePNG: (NSString*) path;
 
 @end

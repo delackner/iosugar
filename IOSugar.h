@@ -167,6 +167,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 @end
 
 @interface RoundedView : UIView {
+    BOOL loaded;
     UIColor* fillColor;
     UIColor* borderColor;
 	float borderWidth;
