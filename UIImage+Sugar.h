@@ -1,6 +1,7 @@
 
 @interface UIImage (Sugar)
 
++ (UIImage *)retinaImageNamed:(NSString *)imageName;
 + (UIImage*)loadImage:(NSString*)aFilename;
 - (UIImage *)crop:(CGRect)rect;
 // image must be a standard width: 29 (left and right edges:14 middle:1) height: 46

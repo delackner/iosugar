@@ -180,4 +180,31 @@
     [UIImagePNGRepresentation(self) writeToFile: path atomically: YES];
 }
 
+// from: https://gist.github.com/bstahlhood
++ (UIImage *)retinaImageNamed:(NSString *)imageName {
+    //NSLog(@"Loading image named => %@", imageName);
+    NSMutableString *imageNameMutable = [imageName mutableCopy];
+    NSRange retinaAtSymbol = [imageName rangeOfString:@"@"];
+    if (retinaAtSymbol.location != NSNotFound) {
+        [imageNameMutable insertString:@"-568h" atIndex:retinaAtSymbol.location];
+    } else {
+        if (IS_WIDESCREEN) {
+            NSRange dot = [imageName rangeOfString:@"."];
+            if (dot.location != NSNotFound) {
+                [imageNameMutable insertString:@"-568h@2x" atIndex:dot.location];
+            } else {
+                [imageNameMutable appendString:@"-568h@2x"];
+            }
+        }
+    }
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageNameMutable ofType:@"png"];
+    if (imagePath) {
+        return [UIImage imageNamed:imageNameMutable];
+    } else {
+        return [UIImage imageNamed:imageName];
+    }
+    return nil;
+}
+
 @end
+
