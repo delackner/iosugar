@@ -590,9 +590,9 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
     UIView* v = [self addHighlightView: c];
     self.text = @"";
     v.alpha = 0.f;
-    [UIView animateWithDuration:0.5 delay:0 options: UIViewAnimationCurveEaseIn animations:^(){ [self setText: t]; v.alpha = 1.f; }
+    [UIView animateWithDuration:0.5 delay:0 options: UIViewAnimationOptionCurveEaseIn animations:^(){ [self setText: t]; v.alpha = 1.f; }
                      completion:^(BOOL finished) {
-                         [UIView animateWithDuration:0.2 delay:0 options: UIViewAnimationCurveEaseOut animations:^(){ v.alpha = 0.f; }
+                         [UIView animateWithDuration:0.2 delay:0 options: UIViewAnimationOptionCurveEaseOut animations:^(){ v.alpha = 0.f; }
                                           completion:^(BOOL finished) {
                                               [v removeFromSuperview];
                                           }];
