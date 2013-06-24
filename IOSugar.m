@@ -231,19 +231,11 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 
 - (void) pushWithFade: (UIViewController*) vc {
     [self prepareVCForPush: vc animated: TRUE];
-    UIImageView* imageView = [self frozenImageView];
-    [[self navigationController] pushViewController:vc animated:NO];
-    [vc viewWillAppear: YES];
-    imageView.alpha = 1;
-    [self.navigationController.view addSubview: imageView];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        imageView.alpha = 0;
-    }completion:^(BOOL fin) {
-        [imageView removeFromSuperview];
-        //NSLog(@"re-enabled user interaction for %@", self);
-        self.view.userInteractionEnabled = TRUE;
-    }];
+    [self.navigationController pushViewController:vc animated:NO];
+    [UIView transitionWithView:self.navigationController.view duration:0.2 options: UIViewAnimationOptionTransitionCrossDissolve animations:nil completion:
+     ^(BOOL fin) {
+         self.view.userInteractionEnabled = TRUE;
+     }];
 }
 
 - (void) popReplacingParentVC: (UIViewController*) newParent
