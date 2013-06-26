@@ -80,6 +80,9 @@ typedef enum {
 - (void) colorPulse;
 - (void) shake;
 
+- (void) startShadowPulsing ;
+- (void) stopShadowPulsing ;
+
 - (void) fillRoundedBounds:(UIColor*) color;
 - (void) fillRoundedBounds:(UIColor*) color borderColor: (UIColor*) borderColor;
 - (void) fillRoundedBounds:(UIColor*) color borderColor: (UIColor*) borderColor borderWidth: (float)width cornerRadius: (float)radius;

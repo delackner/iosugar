@@ -380,6 +380,23 @@ static const float pulsesteps[3] = { 0.2f, 1/15.f, 1/7.5f };
                      }];
 }
 
+- (void) startShadowPulsing {
+    CABasicAnimation *ba = [CABasicAnimation animationWithKeyPath: @"shadowRadius"];
+    ba.fromValue = @(0.f);
+    ba.toValue = @(16.f);
+    ba.repeatCount  = 100000;
+    ba.autoreverses = YES;
+    ba.duration = 0.5f;
+    self.layer.shadowOpacity = 1.f;
+    self.layer.shadowOffset = CGSizeZero;
+    [self.layer addAnimation: ba forKey: @"shadowRadius"];
+}
+
+- (void) stopShadowPulsing {
+    [self.layer removeAnimationForKey: @"shadowRadius"];
+    self.layer.shadowOpacity = 0.f;
+}
+
 - (void) shake {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
     [animation setDuration:0.1];
