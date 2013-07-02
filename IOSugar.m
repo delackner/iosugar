@@ -240,17 +240,26 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 
 - (void) popReplacingParentVC: (UIViewController*) newParent
 {
+    [self popMultiple: 2 thenSegueToVC: newParent];
+}
+
+UIViewController* MakeVC(NSString* classAndNibName) {
+    return [[NSClassFromString(classAndNibName) alloc] initWithNibName:classAndNibName bundle:[NSBundle mainBundle]];
+}
+
+- (void) popMultiple: (int) times thenSegueToVC: (UIViewController*) destination {
     UINavigationController* n = self.navigationController;
     UIView* matrix = n.view;
     UIImage* img = [matrix asImage];
     UIImageView* imageView = [[UIImageView alloc] initWithImage: img];
     imageView.frame = CGRectMake(0,0, img.size.width, img.size.height);
+
+    for (int nth = 0; nth < times; nth++) {
+        [n popViewControllerAnimated: NO];
+    }
+    [[n.viewControllers lastObject] segueToVC:destination animated:NO];
     
-    [n popViewControllerAnimated: NO];
-    [n popViewControllerAnimated: NO];
-    [[n.viewControllers lastObject] segueToVC:newParent animated:NO];
-    
-    if ([newParent segueShouldFade]) {
+    if ([destination segueShouldFade]) {
         [matrix addSubview: imageView];
         [UIView animateWithDuration: 0.2 animations: ^{
             imageView.alpha = 0.f;
@@ -439,15 +448,30 @@ BOOL WriteDictionaryBinary(id d, NSString* path) {
 
 - (void) pushVC: (UIViewController*) vc withSlideFromEdge: (ScreenEdge) edge {
     if (vc) {
-        vc = [self prepareVCForPush: vc];
+        UINavigationController* n = self.navigationController;
+        UIView* matrix = n.view;
+        UIImage* img = [matrix asImage];
+        vc = [self prepareVCForPush: vc animated: FALSE];
         if (vc) {
             [[NSNotificationCenter defaultCenter] postNotificationName:SegueNotification object: vc];
-            [self.view slideView:vc.view toPoint:CGPointZero fromScreenEdge:edge completion:^(BOOL finished){
-                [vc.view removeFromSuperview];
-                [[self navigationController] pushViewController:vc animated:NO];
-                [vc viewWillAppear: YES];
-                //NSLog(@"re-enabled user interaction for %@", self);
-                self.view.userInteractionEnabled = TRUE;        
+            [n pushViewController:vc animated: NO];
+            
+            UIImageView* imageView1 = [[UIImageView alloc] initWithImage: img];
+            imageView1.frame = CGRectMake(0,0, img.size.width, img.size.height);
+            
+            img = [matrix asImage];
+            UIImageView* imageView2 = [[UIImageView alloc] initWithImage: img];
+            imageView2.frame = CGRectMake(matrix.frame.size.width,0, img.size.width, img.size.height);
+            
+            [matrix addSubview: imageView1];
+            [matrix addSubview: imageView2];
+            [UIView animateWithDuration: 0.2 animations: ^{
+                [imageView1 setFrameX: -img.size.width];
+                [imageView2 setFrameX: 0];
+            } completion: ^(BOOL fin) {
+                [imageView1 removeFromSuperview];
+                [imageView2 removeFromSuperview];
+                self.view.userInteractionEnabled = TRUE;
             }];
         }
     }

@@ -97,6 +97,8 @@ UIColor* ColorFromRGB(int rgbValue);
 
 u8 BitCount(u32 x);
 
+UIViewController* MakeVC(NSString* classAndNibName);
+
 #ifdef __cplusplus
 }
 #endif
@@ -139,6 +141,7 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (void) popWithFlip;
 - (void) popMultiple:(int) n;
 - (void) popMultiple:(int) mul animated: (BOOL) anim;
+- (void) popMultiple: (int) times thenSegueToVC: (UIViewController*) destination;
 - (void) popReplacingParentVC: (UIViewController*) newParent;
 - (void) popToVC: (UIViewController*) parent;
 
