@@ -90,6 +90,7 @@ typedef enum {
 
 - (void) disableMultitouch;
 
+- (UIView*) busyView;
 - (void) showBusyView;
 - (void) hideBusyView;
 - (void) showDisabledView;

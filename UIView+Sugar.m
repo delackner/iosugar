@@ -435,8 +435,13 @@ static const float pulsesteps[3] = { 0.2f, 1/15.f, 1/7.5f };
     }
 }
 
+- (UIView*) busyView {
+    return (UIView*)objc_getAssociatedObject(self, &kBusyView);
+}
+
 static int kBusyView = 9457;
 - (void) showBusyView: (BOOL) withActivityIndicator {
+    NSLog(@"showBusyView");
     __block UIView* v = (UIView*)objc_getAssociatedObject(self, &kBusyView);
     void (^addBusyView)() = ^{
         UIActivityIndicatorView* vb = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

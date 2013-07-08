@@ -225,6 +225,8 @@ NSString* Datestamp(NSDate* date) {
     if (encoded == nil) return NO;
     
     [fh writeData:encoded];
+    [fh synchronizeFile];
+    [fh closeFile];
     return YES;
 }
 

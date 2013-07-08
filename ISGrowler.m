@@ -247,15 +247,23 @@ static Growler* growler = nil;
 
     self.view.frame = vc.view.bounds;
     self.coreView.center = self.view.center;
-	[vc.view addSubviewWithFade: self.view];
-    if (!self.disablePulse) {
-        [[self coreView] pulse];
+    [self performSelector:@selector(showDelayed:) withObject: vc afterDelay: 0.2];
+}
+
+- (void) showDelayed: (UIViewController*) vc {
+    NSLog(@"showDelayed. ending? %d", ending);
+    if (!ending) {
+        [vc.view addSubviewWithFade: self.view];
+        if (!self.disablePulse) {
+            [[self coreView] pulse];
+        }
+        [self performSelector:@selector(willAppear) withObject:nil afterDelay:0.1];
     }
-    [self performSelector:@selector(willAppear) withObject:nil afterDelay:0.1];
 }
 
 - (void) willAppear {
     if (self.view.superview) {
+        [self.view.superview bringSubviewToFront: self.view];
         if (b0.hidden && b1.hidden && b2.hidden && busyView.hidden && progressView.hidden) {
             [self performSelector:@selector(dismiss) withObject:nil afterDelay: GROWL_DISMISS_SECONDS];
         }
@@ -302,6 +310,7 @@ static Growler* growler = nil;
             }];
         }
     }
+    ending = TRUE;
 }
 
 - (void)fadeFinishedSoRemove:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
