@@ -41,6 +41,7 @@ typedef enum {
 - (void) setFrameW: (int) w;
 - (void) setFrameH: (int) h;
 - (void) snapToCenterX;
+- (void) snapToCenterY;
 
 - (void) saveFrame;
 - (void) loadFrame;

@@ -12,6 +12,7 @@
 - (UIImage *)tintedWithColor:(UIColor *)theColor blendMode: (CGBlendMode) mode scale: (float) scale;
 
 - (UIImage*) grayImage ;
+- (UIImage *) grayImageWithAlpha;
 - (void) drawHorizontallyFlippedAtPoint: (CGPoint) p context: (CGContextRef) c;
 - (void) drawHorizontallyFlippedAtPoint: (CGPoint) p context: (CGContextRef) c alpha: (float) alpha ;
 - (void) drawCentered: (CGPoint) p;

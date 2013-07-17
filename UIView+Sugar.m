@@ -40,6 +40,11 @@
     self.center = CGPointMake(sp.x, self.center.y);
 }
 
+- (void) snapToCenterY {
+    CGRect f = self.superview.frame;
+    self.center = CGPointMake(self.center.x, f.size.height/2);
+}
+
 static char slideFrameKey;
 
 - (void) saveFrame {

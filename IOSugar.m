@@ -821,31 +821,16 @@ BOOL OSVersionAtLeast5(void){
 @end
 
 @implementation RoundedLabel
-@synthesize bgColor, cornerRadius;
+@synthesize cornerRadius;
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder: aDecoder];
-    bgColor = self.backgroundColor;
-    cornerRadius = 3;
-    self.backgroundColor = [UIColor clearColor];
+    self.layer.cornerRadius = 3;
     return self;
 }
 
-- (void) setBackgroundColor:(UIColor *)bg {
-    if (![bg isEqual: [UIColor clearColor]]) {
-        [super setBackgroundColor: [UIColor clearColor]];
-        [self setBgColor: bg];
-    }
-}
-
 - (void) setCornerRadius:(int)cr {
-    cornerRadius = cr;
-    [self setNeedsDisplay];
-}
-
-- (void) drawRect: (CGRect) r {
-    ISFillRoundedRect(UIGraphicsGetCurrentContext(), CGRectInset(r, 1, 1), cornerRadius, bgColor, 0, 0);
-    [super drawRect: r];
+    self.layer.cornerRadius = cr;
 }
 
 - (void) sizeToFit {

@@ -89,6 +89,38 @@
 	return img;
 }
 
+- (UIImage *) grayImageWithAlpha {
+	CGSize sz = self.size;
+	//CGRect rect = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
+	CGRect rect = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+	//NSLog([NSString stringWithFormat:@"width: %g",image.size.width]);
+	//NSLog([NSString stringWithFormat:@"height: %g",image.size.height]);
+	// Create a mono/gray color space
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+	CGContextRef context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, 0, colorSpace, kCGImageAlphaNone);
+	
+	//CGContextTranslateCTM(context, image.sz.width, 0);
+	CGColorSpaceRelease(colorSpace);
+	// Draw the image into the grayscale context
+	CGContextDrawImage(context, rect, [self CGImage]);
+	CGImageRef grayscale = CGBitmapContextCreateImage(context);
+	CGContextRelease(context);
+    
+    //redraw it in normal color space, clipped to original mask
+	colorSpace = CGColorSpaceCreateDeviceRGB();
+    context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, sz.width * 4, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextClipToMask(context, rect, self.CGImage);
+	// Draw the image into the grayscale context
+	CGContextDrawImage(context, rect, grayscale);
+    CFRelease(grayscale);
+	CGImageRef grayscale_with_alpha = CGBitmapContextCreateImage(context);
+	CGContextRelease(context);
+    
+	UIImage *img = [UIImage imageWithCGImage: grayscale_with_alpha];
+	CFRelease(grayscale_with_alpha);
+	return img;
+}
+
 - (void) drawHorizontallyFlippedAtPoint: (CGPoint) p context: (CGContextRef) c {
 	[self drawHorizontallyFlippedAtPoint:p context:c alpha: 1.f];
 }

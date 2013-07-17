@@ -234,8 +234,6 @@ typedef void (^BlockVoid_Cell)(UITableViewCell* cell);
 //LazyMenu* MenuWithFormatter(NSString* title, NSArray* menus, BlockArray_Array action, BlockVoid_Cell formatter);
 
 @interface RoundedLabel: UILabel
-
-@property (nonatomic, strong) UIColor* bgColor;
 @property (nonatomic) int cornerRadius;
 @end
 
