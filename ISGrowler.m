@@ -353,6 +353,11 @@ static Growler* growler = nil;
 	[self end];
 }
 
+- (void) tintWithColor: (UIColor*) c {
+    self.coreView.tintColor = c;
+    [self.coreView setNeedsDisplay];
+}
+
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
@@ -369,6 +374,14 @@ static Growler* growler = nil;
     UIImage* top = [UIImage imageNamed: @"growl_top.png"];
     UIImage* mid = [UIImage imageNamed: @"growl_middle.png"];
     UIImage* bot = [UIImage imageNamed: @"growl_bottom.png"];
+    
+    UIColor* c = self.tintColor;
+    if (c) {
+        top = [top tintedWithColor: c];
+        mid = [mid tintedWithColor: c];
+        bot = [bot tintedWithColor: c];
+    }
+    
     CGRect f = self.bounds;
     [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
     [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];

@@ -1,6 +1,7 @@
 #import "IOSugar.h"
 
 @interface GrowlView : UIView
+@property (nonatomic, strong) UIColor* tintColor;
 @end
 
 typedef void (^VoidCallbackBlock) (id context);
@@ -12,20 +13,21 @@ typedef void (^VoidCallbackBlock) (id context);
 	SEL didEndSelector;
 	SEL actions[3];
 	id context;
+    UIColor* tintColor;
 	
 	IBOutlet UILabel* tTitle;
 	IBOutlet UITextView* tMessage;
 	IBOutlet UIButton* b0;
 	IBOutlet UIButton* b1;
 	IBOutlet UIButton* b2;
-	IBOutlet UIView* coreView;
+	IBOutlet GrowlView* coreView;
 	IBOutlet UIActivityIndicatorView* busyView;
 	IBOutlet UIProgressView* progressView;
 	NSArray* buttons;
 }
 @property (nonatomic) u8 choice;
 @property (nonatomic) BOOL disablePulse;
-@property (nonatomic, strong) UIView* coreView;
+@property (nonatomic, strong) GrowlView* coreView;
 @property (nonatomic, strong) UIActivityIndicatorView* busyView;
 @property (nonatomic, strong) UIProgressView* progressView;
 @property (nonatomic, strong) UILabel* tTitle;
@@ -47,6 +49,7 @@ typedef void (^VoidCallbackBlock) (id context);
 - (void) setButton1:(NSString*)s target: (id) target action: (SEL) action;
 - (void) setButton2:(NSString*)s target: (id) target action: (SEL) action;
 - (void) showWithViewController: (UIViewController*) vc;
+- (void) tintWithColor: (UIColor*) c;
 
 @end
 
