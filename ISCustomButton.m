@@ -111,8 +111,10 @@
 
 
 UIControl* ReplaceWithGlowButton(UIControl* c) {
-    GlowButton* g = [[GlowButton alloc] initAndReplaceButton: (UIButton*)c];
-    return g;
+    return c;
+    //IOS7 makes this totally silly looking
+    //GlowButton* g = [[GlowButton alloc] initAndReplaceButton: (UIButton*)c];
+    //return g;
 }
 
 @implementation GlowButton

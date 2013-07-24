@@ -417,6 +417,10 @@ UIViewController* MakeVC(NSString* classAndNibName) {
     if ([vc.navigationItem leftBarButtonItem] || [vc.navigationItem rightBarButtonItem] || [vc showNavigationBarEvenIfNoButtons]) {
         [self.navigationController setNavigationBarHidden:NO animated: anim];
     }
+    
+    if ([vc alwaysHidesNavigationBar]) {
+        [self.navigationController setNavigationBarHidden: TRUE animated: anim];
+    }
     return vc;
 }
 
@@ -432,6 +436,10 @@ UIViewController* MakeVC(NSString* classAndNibName) {
             [self pushWithFade: vc];
         }
     }
+}
+
+- (BOOL) alwaysHidesNavigationBar {
+    return FALSE;
 }
 
 - (BOOL) showNavigationBarEvenIfNoButtons {
@@ -567,6 +575,12 @@ UIViewController* MakeVC(NSString* classAndNibName) {
 
 @implementation ISNavigationController
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated {
+    NSArray* a = [self viewControllers];
+    int count = [a count];
+    if (count > 2 && [a[count - 2] alwaysHidesNavigationBar]) {
+        [self setNavigationBarHidden: TRUE animated: animated];
+    }
+
     UIViewController* vc = [super popViewControllerAnimated: animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:SegueNotification object: vc];
     objc_setAssociatedObject(vc.view, &navigationRetainKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

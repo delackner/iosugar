@@ -151,6 +151,8 @@ DEFH(SegueNotification); //posted on segueToVC and popMultiple.
 - (void) setBackButton: (NSString*) title action: (SEL) action;
 - (UIViewController*) segueTo: (NSString*) className;
 - (UIViewController*) segueTo: (NSString*) className animated: (BOOL) anim;
+- (BOOL) alwaysHidesNavigationBar;
+- (BOOL) showNavigationBarEvenIfNoButtons;
 - (BOOL) segueShouldFade;
 - (void) segueToVC: (UIViewController*) vc;
 - (void) segueToVC: (UIViewController*) vc animated: (BOOL) animated;

@@ -1,3 +1,4 @@
+#import <QuartzCore/QuartzCore.h>
 #import "ISGrowler.h"
 
 #define GROWL_DISMISS_SECONDS 1.9
@@ -354,8 +355,11 @@ static Growler* growler = nil;
 }
 
 - (void) tintWithColor: (UIColor*) c {
-    self.coreView.tintColor = c;
-    [self.coreView setNeedsDisplay];
+//    self.coreView.tintColor = c;
+//    [self.coreView setNeedsDisplay];
+    for (UIButton* b in buttons) {
+        [b setTitleColor:c forState:0];
+    }
 }
 
 - (void)viewDidUnload {
@@ -365,29 +369,35 @@ static Growler* growler = nil;
 
 @implementation GrowlView
 - (void) awakeFromNib {
-	[self setBackgroundColor: [UIColor clearColor]];
+	[self setBackgroundColor: ColorFromRGB(0xE6E6E6)];
 	self.opaque = FALSE;
-	//self.alpha = 0.7;
+    self.layer.cornerRadius = 8.f;
+    self.layer.masksToBounds = YES;
+	self.alpha = 0.97;
 }
+
 - (void) drawRect:(CGRect) r {
-	//[super drawRect: r];
-    UIImage* top = [UIImage imageNamed: @"growl_top.png"];
-    UIImage* mid = [UIImage imageNamed: @"growl_middle.png"];
-    UIImage* bot = [UIImage imageNamed: @"growl_bottom.png"];
-    
-    UIColor* c = self.tintColor;
-    if (c) {
-        top = [top tintedWithColor: c];
-        mid = [mid tintedWithColor: c];
-        bot = [bot tintedWithColor: c];
-    }
+	[super drawRect: r];
+//    UIImage* top = [UIImage imageNamed: @"growl_top.png"];
+//    UIImage* mid = [UIImage imageNamed: @"growl_middle.png"];
+//    UIImage* bot = [UIImage imageNamed: @"growl_bottom.png"];
+//    
+//    UIColor* c = self.tintColor;
+//    if (c) {
+//        top = [top tintedWithColor: c];
+//        mid = [mid tintedWithColor: c];
+//        bot = [bot tintedWithColor: c];
+//    }
     
     CGRect f = self.bounds;
-    [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
-    [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];
-    f.origin.y += top.size.height;
-    f.size.height -= top.size.height + bot.size.height;
-    [mid drawInRect: f];
+//    [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
+//    [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];
+//    f.origin.y += top.size.height;
+//    f.size.height -= top.size.height + bot.size.height;
+//    [mid drawInRect: f];
+    
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    ISDrawRetinaLine(c, CGRectMake(0,f.size.height - 40, f.size.width, 1), ColorFromRGB(0xD0D0D0));
 }
 
 - (void) setFrame: (CGRect) f {
