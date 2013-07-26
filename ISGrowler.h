@@ -2,6 +2,7 @@
 
 @interface GrowlView : UIView
 @property (nonatomic, strong) UIColor* tintColor;
+@property (nonatomic) BOOL haveButtons;
 @end
 
 typedef void (^VoidCallbackBlock) (id context);

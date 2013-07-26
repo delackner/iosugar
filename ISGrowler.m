@@ -248,6 +248,13 @@ static Growler* growler = nil;
 
     self.view.frame = vc.view.bounds;
     self.coreView.center = self.view.center;
+    self.coreView.haveButtons = !b0.hidden || !b1.hidden || !b2.hidden;
+    if (IS_IPAD) {
+        if (!b1.hidden && b0.hidden && b2.hidden) {
+            [b1 setFrameX: 0];
+            [b1 setFrameW: self.coreView.frame.size.width];
+        }
+    }
     [self performSelector:@selector(showDelayed:) withObject: vc afterDelay: 0.2];
 }
 
@@ -389,15 +396,17 @@ static Growler* growler = nil;
 //        bot = [bot tintedWithColor: c];
 //    }
     
-    CGRect f = self.bounds;
-//    [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
-//    [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];
-//    f.origin.y += top.size.height;
-//    f.size.height -= top.size.height + bot.size.height;
-//    [mid drawInRect: f];
-    
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    ISDrawRetinaLine(c, CGRectMake(0,f.size.height - 40, f.size.width, 1), ColorFromRGB(0xD0D0D0));
+    if (self.haveButtons) {
+        CGRect f = self.bounds;
+        //    [top drawInRect: CGRectMake(0,0,f.size.width, top.size.height)];
+        //    [bot drawInRect: CGRectMake(0,f.size.height - bot.size.height, f.size.width, bot.size.height)];
+        //    f.origin.y += top.size.height;
+        //    f.size.height -= top.size.height + bot.size.height;
+        //    [mid drawInRect: f];
+        
+        CGContextRef c = UIGraphicsGetCurrentContext();
+        ISDrawRetinaLine(c, CGRectMake(0,f.size.height - (IS_IPAD ? 60 : 40), f.size.width, 1), ColorFromRGB(0xD0D0D0));
+    }
 }
 
 - (void) setFrame: (CGRect) f {
