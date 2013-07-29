@@ -814,6 +814,15 @@ BOOL OSVersionAtLeast5(void){
     return atLeast;
 }
 
+BOOL OSVersionAtLeast7(void){
+    static BOOL initialized = FALSE;
+    static BOOL atLeast = FALSE;
+    if (!initialized) {
+        initialized = TRUE;
+        atLeast = OSVersionAtLeast(@"7");
+    }
+    return atLeast;
+}
 @end
 
 @implementation LazyMenu

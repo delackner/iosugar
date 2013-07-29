@@ -247,6 +247,7 @@ extern BOOL IS_RETINA;
 BOOL OSVersionAtLeast(NSString* want);
 BOOL OSVersionAtLeast4(void);
 BOOL OSVersionAtLeast5(void);
+BOOL OSVersionAtLeast7(void);
 BOOL IsAACHardwareEncoderAvailable(void) ;
 uint64_t FreeSpace();
 unsigned long long int FolderSize(NSString * path);
