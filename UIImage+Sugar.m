@@ -75,7 +75,7 @@
 	//NSLog([NSString stringWithFormat:@"height: %g",image.size.height]);
 	// Create a mono/gray color space
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, 0, colorSpace, kCGImageAlphaNone);
+	CGContextRef context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaNone);
 	
 	//CGContextTranslateCTM(context, image.sz.width, 0);
 	CGColorSpaceRelease(colorSpace);
@@ -97,7 +97,7 @@
 	//NSLog([NSString stringWithFormat:@"height: %g",image.size.height]);
 	// Create a mono/gray color space
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, 0, colorSpace, kCGImageAlphaNone);
+	CGContextRef context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaNone);
 	
 	//CGContextTranslateCTM(context, image.sz.width, 0);
 	CGColorSpaceRelease(colorSpace);
@@ -108,7 +108,7 @@
     
     //redraw it in normal color space, clipped to original mask
 	colorSpace = CGColorSpaceCreateDeviceRGB();
-    context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, sz.width * 4, colorSpace, kCGImageAlphaPremultipliedLast);
+    context = CGBitmapContextCreate(nil, sz.width, sz.height, 8, sz.width * 4, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     CGContextClipToMask(context, rect, self.CGImage);
 	// Draw the image into the grayscale context
 	CGContextDrawImage(context, rect, grayscale);

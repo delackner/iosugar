@@ -605,7 +605,7 @@ UIViewController* MakeVC(NSString* classAndNibName) {
 }
 
 - (UIView*) addHighlightView: (UIColor*) c {
-    UILineBreakMode mode = 1 == self.numberOfLines ? UILineBreakModeTailTruncation : UILineBreakModeWordWrap ;
+    NSLineBreakMode mode = 1 == self.numberOfLines ? NSLineBreakByTruncatingTail : NSLineBreakByWordWrapping ;
 	CGSize sz = [self.text sizeWithFont:self.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode: mode];
     CGRect f = CGRectInset(CGRectMake(CGRectGetMaxX(self.frame) - sz.width, self.frame.origin.y, sz.width, sz.height), -8, -4);
     
@@ -630,7 +630,7 @@ UIViewController* MakeVC(NSString* classAndNibName) {
 }
 
 + (UILabel*) labelFittingText: (NSString*) text font: (UIFont*) font numberOfLines: (int) max {
-	UILineBreakMode mode = 0 == max ? UILineBreakModeWordWrap : UILineBreakModeTailTruncation;
+	NSLineBreakMode mode = 0 == max ? NSLineBreakByWordWrapping : NSLineBreakByTruncatingTail;
 	CGSize textSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode: mode];
 	UILabel* label = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, textSize.width, textSize.height)];
 	label.numberOfLines = max;

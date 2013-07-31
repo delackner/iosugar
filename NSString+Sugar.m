@@ -235,7 +235,7 @@ NSString* Datestamp(NSDate* date) {
 	float fontSize;
 	CGSize textSize = [self sizeWithFont: font constrainedToSize: r.size];
 	CGRect textRect = CGRectMake(r.origin.x + (r.size.width - textSize.width)/2, r.origin.y + (r.size.height - [font pointSize])/2, r.size.width, r.size.height);
-	[self drawAtPoint:textRect.origin forWidth:textRect.size.width withFont:font minFontSize:8 actualFontSize:&fontSize lineBreakMode:UILineBreakModeClip baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+	[self drawAtPoint:textRect.origin forWidth:textRect.size.width withFont:font minFontSize:8 actualFontSize:&fontSize lineBreakMode:NSLineBreakByClipping baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
 }
 #endif
 
